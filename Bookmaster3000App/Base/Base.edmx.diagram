@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="98d11b5252d8418c9ede7f9f25c5b637" Name="Diagram1">
+        <EntityTypeShape EntityType="Bookmaster3000Model.Authors" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.BookCovers" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.Books" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.BookSubjects" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.Customers" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.sysdiagrams" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <AssociationConnector Association="Bookmaster3000Model.FK_BookCovers_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="Bookmaster3000Model.FK_BookSubjects_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="Bookmaster3000Model.BookAuthors" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.User" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="Bookmaster3000Model.Issues" Width="1.5" PointX="8.25" PointY="3.875" />
+        <AssociationConnector Association="Bookmaster3000Model.FK_Issues_Books" />
+        <AssociationConnector Association="Bookmaster3000Model.FK_Issues_Customers" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

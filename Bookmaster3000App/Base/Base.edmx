@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Bookmaster3000Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Bio" Type="nvarchar(max)" />
+          <Property Name="BirthDate" Type="nvarchar" MaxLength="20" />
+          <Property Name="DeathDate" Type="nvarchar" MaxLength="20" />
+          <Property Name="Wikipedia" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="BookAuthors">
+          <Key>
+            <PropertyRef Name="BookKey" />
+            <PropertyRef Name="AuthorKey" />
+          </Key>
+          <Property Name="BookKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AuthorKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookCovers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="CoverFile" Type="int" Nullable="false" />
+          <Property Name="Book_Key" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Subtitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="FirstPublishDate" Type="nvarchar" MaxLength="20" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="BookSubjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="Book_Key" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="nchar" MaxLength="5" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="Zip" Type="nchar" MaxLength="10" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nchar" MaxLength="12" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Issues">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CustomerID" Type="nchar" MaxLength="5" Nullable="false" />
+          <Property Name="DateOfIssue" Type="datetime" Nullable="false" />
+          <Property Name="ReturnDate" Type="datetime" />
+          <Property Name="Returned" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BookAuthors_Authors">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1" />
+          <End Role="BookAuthors" Type="Self.BookAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookAuthors">
+              <PropertyRef Name="AuthorKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookAuthors_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookAuthors" Type="Self.BookAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookAuthors">
+              <PropertyRef Name="BookKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookCovers_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookCovers" Type="Self.BookCovers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookCovers">
+              <PropertyRef Name="Book_Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookSubjects_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookSubjects" Type="Self.BookSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookSubjects">
+              <PropertyRef Name="Book_Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Bookmaster3000ModelContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookAuthors" EntityType="Self.BookAuthors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookCovers" EntityType="Self.BookCovers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookSubjects" EntityType="Self.BookSubjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issues" EntityType="Self.Issues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookAuthors_Authors" Association="Self.FK_BookAuthors_Authors">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="BookAuthors" EntitySet="BookAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookAuthors_Books" Association="Self.FK_BookAuthors_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookAuthors" EntitySet="BookAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookCovers_Books" Association="Self.FK_BookCovers_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookCovers" EntitySet="BookCovers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookSubjects_Books" Association="Self.FK_BookSubjects_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookSubjects" EntitySet="BookSubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Books" Association="Self.FK_Issues_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Customers" Association="Self.FK_Issues_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bookmaster3000Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DeathDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Wikipedia" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Books" Relationship="Self.BookAuthors" FromRole="Authors" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="BookCovers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="CoverFile" Type="Int32" Nullable="false" />
+          <Property Name="Book_Key" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BookCovers_Books" FromRole="BookCovers" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subtitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FirstPublishDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookCovers" Relationship="Self.FK_BookCovers_Books" FromRole="Books" ToRole="BookCovers" />
+          <NavigationProperty Name="BookSubjects" Relationship="Self.FK_BookSubjects_Books" FromRole="Books" ToRole="BookSubjects" />
+          <NavigationProperty Name="Authors" Relationship="Self.BookAuthors" FromRole="Books" ToRole="Authors" />
+          <NavigationProperty Name="Issues" Relationship="Bookmaster3000Model.FK_Issues_Books" FromRole="Books" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="BookSubjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_Key" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BookSubjects_Books" FromRole="BookSubjects" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="5" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Issues" Relationship="Bookmaster3000Model.FK_Issues_Customers" FromRole="Customers" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_BookCovers_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookCovers" Type="Self.BookCovers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookCovers">
+              <PropertyRef Name="Book_Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookSubjects_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookSubjects" Type="Self.BookSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="BookSubjects">
+              <PropertyRef Name="Book_Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BookAuthors">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="*" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Bookmaster3000Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Authors" />
+          <EntitySet Name="BookCovers" EntityType="Self.BookCovers" />
+          <EntitySet Name="Books" EntityType="Self.Books" />
+          <EntitySet Name="BookSubjects" EntityType="Self.BookSubjects" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_BookCovers_Books" Association="Self.FK_BookCovers_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookCovers" EntitySet="BookCovers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookSubjects_Books" Association="Self.FK_BookSubjects_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookSubjects" EntitySet="BookSubjects" />
+          </AssociationSet>
+          <AssociationSet Name="BookAuthors" Association="Self.BookAuthors">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <EntitySet Name="User" EntityType="Bookmaster3000Model.User" />
+          <EntitySet Name="Issues" EntityType="Bookmaster3000Model.Issues" />
+          <AssociationSet Name="FK_Issues_Books" Association="Bookmaster3000Model.FK_Issues_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Customers" Association="Bookmaster3000Model.FK_Issues_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Issues">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="DateOfIssue" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <Property Name="Returned" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Bookmaster3000Model.FK_Issues_Books" FromRole="Issues" ToRole="Books" />
+          <NavigationProperty Name="Customers" Relationship="Bookmaster3000Model.FK_Issues_Customers" FromRole="Issues" ToRole="Customers" />
+        </EntityType>
+        <Association Name="FK_Issues_Books">
+          <End Type="Bookmaster3000Model.Books" Role="Books" Multiplicity="1" />
+          <End Type="Bookmaster3000Model.Issues" Role="Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Customers">
+          <End Type="Bookmaster3000Model.Customers" Role="Customers" Multiplicity="1" />
+          <End Type="Bookmaster3000Model.Issues" Role="Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Bookmaster3000ModelContainer" CdmEntityContainer="Bookmaster3000Entities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.Authors">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bio" ColumnName="Bio" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="DeathDate" ColumnName="DeathDate" />
+                <ScalarProperty Name="Wikipedia" ColumnName="Wikipedia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookCovers">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.BookCovers">
+              <MappingFragment StoreEntitySet="BookCovers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CoverFile" ColumnName="CoverFile" />
+                <ScalarProperty Name="Book_Key" ColumnName="Book_Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.Books">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Subtitle" ColumnName="Subtitle" />
+                <ScalarProperty Name="FirstPublishDate" ColumnName="FirstPublishDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookSubjects">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.BookSubjects">
+              <MappingFragment StoreEntitySet="BookSubjects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Book_Key" ColumnName="Book_Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.Customers">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BookAuthors" TypeName="Bookmaster3000Model.BookAuthors" StoreEntitySet="BookAuthors">
+            <EndProperty Name="Authors">
+              <ScalarProperty Name="Key" ColumnName="AuthorKey" />
+            </EndProperty>
+            <EndProperty Name="Books">
+              <ScalarProperty Name="Key" ColumnName="BookKey" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issues">
+            <EntityTypeMapping TypeName="Bookmaster3000Model.Issues">
+              <MappingFragment StoreEntitySet="Issues">
+                <ScalarProperty Name="Returned" ColumnName="Returned" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="DateOfIssue" ColumnName="DateOfIssue" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
